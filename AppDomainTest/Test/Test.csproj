@@ -41,19 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByeTestCla.cs" />
+    <Compile Include="HelloTestCla.cs" />
     <Compile Include="Model\ResultModel.cs" />
     <Compile Include="TestCla.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ByeTest\ByeTest.csproj">
-      <Project>{ee295435-e4ec-49e5-abfe-a11230ad11ba}</Project>
-      <Name>ByeTest</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HelloTest\HelloTest.csproj">
-      <Project>{e14b1972-9656-46b5-b182-728e751916ac}</Project>
-      <Name>HelloTest</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

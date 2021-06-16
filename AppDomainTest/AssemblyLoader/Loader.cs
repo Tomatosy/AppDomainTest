@@ -14,13 +14,16 @@ namespace Seasky.AssemblyLoader
         {
         }
 
-        private string claName = "Test.TestCla";
         private AppDomain domain = null;
         private Hashtable domains = new Hashtable();
         private RemoteLoader rl = null;
 
         private void SetRemoteLoaderObject(string dllName)
         {
+
+            //string aaaTest = "123";
+
+
             AppDomainSetup setup = new AppDomainSetup();
             // 启用影像复制程序集,将准备加载的程序集拷贝一份至CachePath,防止锁定
             setup.ShadowCopyFiles = "true";
@@ -28,7 +31,7 @@ namespace Seasky.AssemblyLoader
             domain = AppDomain.CreateDomain(dllName, null, setup);
 
             // dll通过路径解析失败的话，
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            //AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             domains.Add(dllName, domain);
             object[] parms = { dllName };
@@ -37,7 +40,7 @@ namespace Seasky.AssemblyLoader
             try
             {
                 rl = (Seasky.AssemblyLoader.RemoteLoader)domain.CreateInstanceFromAndUnwrap(
-                    "Seasky.AssemblyLoader.dll", "Seasky.AssemblyLoader.RemoteLoader", true, bindings,
+                    System.AppDomain.CurrentDomain.BaseDirectory + "Seasky.AssemblyLoader.dll", "Seasky.AssemblyLoader.RemoteLoader", true, bindings,
                     null, parms, null, null);
             }
             catch (Exception ex)
@@ -61,7 +64,7 @@ namespace Seasky.AssemblyLoader
                 SetRemoteLoaderObject(dllName);
                 return rl.LoadAssembly(dllName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw new AssemblyLoadFailureException();
             }
@@ -75,7 +78,7 @@ namespace Seasky.AssemblyLoader
                 SetRemoteLoaderObject(dllName);
                 return rl.GetAssemblyVersion(dllName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw new AssemblyLoadFailureException();
             }
@@ -86,7 +89,7 @@ namespace Seasky.AssemblyLoader
             try
             {
                 SetRemoteLoaderObject(dllName);
-                return (T)rl.InvokeMethod(dllName, methodName, parameters,claName);
+                return (T)rl.InvokeMethod(dllName, methodName, parameters);
             }
             catch (Exception ex)
             {

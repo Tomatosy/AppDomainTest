@@ -8,13 +8,13 @@ using Test;
 
 namespace AppDomainTest
 {
-    class Program
+    internal class Program
     {
 
         //private static string assemblyDir = System.Configuration.ConfigurationManager.AppSettings["AssemblyDir"];
         private static string assemblyDir = System.AppDomain.CurrentDomain.BaseDirectory + @"Test.dll";
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             // 1.通过Loader加载dll反射其方法
             // 2.反射方法中调用HelloTest的方法(实际中也可通过WebApi调用HelloTest中的方法)
@@ -23,13 +23,13 @@ namespace AppDomainTest
             string result = loader.InvokeMethod<string>(assemblyDir, "saidHello", null);
             loader.Unload(assemblyDir);
             ResultModel resultModel = JsonConvert.DeserializeObject<ResultModel>(result);
-            Console.WriteLine(resultModel?.SaidSomething);
+            Console.WriteLine(resultModel?.SaidSomething);//just hello
 
             loader = new Loader();
             result = loader.InvokeMethod<string>(assemblyDir, "saidBye", null);
             loader.Unload(assemblyDir);
             resultModel = JsonConvert.DeserializeObject<ResultModel>(result);
-            Console.WriteLine(resultModel?.SaidSomething);
+            Console.WriteLine(resultModel?.SaidSomething);// just bye
         }
     }
 }

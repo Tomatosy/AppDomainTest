@@ -45,13 +45,13 @@ namespace Seasky.AssemblyLoader
             return name.Version.ToString();
         }
 
-        public object InvokeMethod(string dllName, string methodName, object[] parameters,string claName)
+        public object InvokeMethod(string dllName, string methodName, object[] parameters)
         {
             try
             {
                 assembly = Assembly.LoadFrom(dllName);
 
-                Type t = assembly.GetType(claName);
+                Type t = assembly.GetType("SeaSky.FinanceMonitor.DLL.DataProcess");
                 MethodInfo m = t.GetMethod(methodName);
 
                 object ins = assembly.CreateInstance(t.FullName);
